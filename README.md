@@ -1,6 +1,6 @@
 dbadailystuff
 =============
 
-Source code used in dbadailystuff.com blog
+Source code used in my [dbadailystuff blog](http://dbadailystuff.com/).
 
-The aim of this repository is to be able to download easily all the code used in my blog dbadailystuff.com
+The aim of this repository is to be able to download easily all the code.
