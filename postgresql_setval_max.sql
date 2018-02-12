@@ -63,7 +63,7 @@ SELECT setval_max('public');
 
 -- Example to execute setval to all sequences in all user schemas in the database
 -- Showing the sentences that are being executed
-SELECT setval_max(nspname, true)
+SELECT setval_max(nspname, null, true)
 FROM pg_namespace
 WHERE nspname !~ '^pg_.*' AND nspname <> 'information_schema';
 
@@ -94,7 +94,7 @@ INSERT INTO public.test_setval (info) VALUES ('Forth Value');
 -- 'Forth Value' is inserted with id = 3
 SELECT * FROM public.test_setval;
 
-SELECT setval_max('public', true);
+SELECT setval_max('public', null, true);
 
 INSERT INTO public.test_setval (info) VALUES ('Fifth Value - after setval');
 
