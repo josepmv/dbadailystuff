@@ -36,7 +36,7 @@ BEGIN
 	END IF;
 
 	FOR sql_code IN
-		SELECT 'SELECT SETVAL(' ||quote_literal(N.nspname || '.' || S.relname)|| ', MAX(' ||quote_ident(C.attname)|| ') ) FROM ' || quote_ident(N.nspname) || '.' || quote_ident(T.relname)|| ';' AS sql_code
+		SELECT 'SELECT SETVAL(' ||quote_literal(N.nspname || '.' || S.relname)|| '::regclass, MAX(' ||quote_ident(C.attname)|| ')::bigint ) FROM ' || quote_ident(N.nspname) || '.' || quote_ident(T.relname)|| ';' AS sql_code
 			FROM pg_class AS S
 			INNER JOIN pg_depend AS D ON S.oid = D.objid
 			INNER JOIN pg_class AS T ON D.refobjid = T.oid
