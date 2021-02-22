@@ -1,12 +1,12 @@
 /*
 SETVAL for all sequences in a schema or for a unique table
 In PostgreSQL, when you’re working with sequences, if you insert a future value due to the incrementing values, you will get an error
- when that value is going to be inserted. I like much more how SQL Server handles autoincrement columns with its IDENTITY property, 
+ when that value is going to be inserted. I like much more how SQL Server handles autoincrement columns with its IDENTITY property,
  that would be like the sequences linked to a table like SERIAL, but it’s much more restrictive and by default you cannot INSERT a register
  specifying the value of this column as you can do with PostgreSQL.
-The PostgreSQL setval() function, explained in Sequence Manipulation Functions (http://www.postgresql.org/docs/current/interactive/functions-sequence.html), 
-is the way that PostgreSQL has to change the value of a sequence. But only accepts one table as a parameter. 
-So, if you need to set all the sequences in a schema to the max(id) of every table, 
+The PostgreSQL setval() function, explained in Sequence Manipulation Functions (http://www.postgresql.org/docs/current/interactive/functions-sequence.html),
+is the way that PostgreSQL has to change the value of a sequence. But only accepts one table as a parameter.
+So, if you need to set all the sequences in a schema to the max(id) of every table,
 you can do can use the following script, based on Updating sequence values from table select (http://wiki.postgresql.org/wiki/Fixing_Sequences).
 */
 
@@ -36,7 +36,7 @@ BEGIN
 	END IF;
 
 	FOR sql_code IN
-		SELECT 'SELECT SETVAL(' ||quote_literal(N.nspname || '.' || S.relname)|| ', MAX(' ||quote_ident(C.attname)|| ') ) FROM ' || quote_ident(N.nspname) || '.' || quote_ident(T.relname)|| ';' AS sql_code
+		SELECT 'SELECT SETVAL(' ||quote_literal(N.nspname || '.' || quote_ident(S.relname))|| ', MAX(' ||quote_ident(C.attname)|| ') ) FROM ' || quote_ident(N.nspname) || '.' || quote_ident(T.relname)|| ';' AS sql_code
 			FROM pg_class AS S
 			INNER JOIN pg_depend AS D ON S.oid = D.objid
 			INNER JOIN pg_class AS T ON D.refobjid = T.oid
@@ -70,9 +70,9 @@ WHERE nspname !~ '^pg_.*' AND nspname <> 'information_schema';
 
 
 
-/* 
+/*
 Full example
-In this example, a table is created and some registers are inserted. The 3rd insert 'Third Value - Jumping' is forced to id = 7 instead of using the 
+In this example, a table is created and some registers are inserted. The 3rd insert 'Third Value - Jumping' is forced to id = 7 instead of using the
  sequence. But the sequence hasn't been modified so when it would arrive to 7 it would get an error because the value already exists.
 */
 
